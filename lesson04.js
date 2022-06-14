@@ -4,7 +4,6 @@
 Prototype nedir?
 
 JavaScript'te hemen hemen tüm nesneler başka bir nesneden türetilerek oluşturulur.
-
 **/
 
 //Literal
@@ -32,28 +31,19 @@ Object nesnesine ait olan tüm metotların aynısını ben person nesnesinde de 
 console.log(person.hasOwnProperty("name")); // true //hasOwnProperty __proto__ metodudur..
 
 
-hasOwnProperty metodu inhetance edildi.
+hasOwnProperty metodu inheritance edildi.
 */
 
 const myObj = {};
 
 console.log(myObj);
-console.log(myObj.toString()); // [object, Object] __proto__ temelde object.
-
-// OBJECT --> myObj, myObj nesnesinin proto'i ne? Object. Ek özellik vermiyoruz.
-
-
-// OBJECT + name,surname,age,fullName() ---> person. Buradaki person nesnesinin proto'i ne ? Object. Ve person nesnesine name,surname,age, fullName() gibi ek özellikler veriyoruz.
-
-
+console.log(myObj.toString()); // [object, Object]
 /**
  * OBJECT'i javascript'teki temel nesne olarak düşünün.
  */
 
  function Person(name, surname, age){ 
  
-  console.log(this); 
-
   this.name = name; 
   this.surname = surname; 
   this.age = age; 
@@ -61,7 +51,6 @@ console.log(myObj.toString()); // [object, Object] __proto__ temelde object.
     return this.name + ' ' + this.surname 
   }
 }
-
 
 const arin = new Person("Arin", "Çekiç", 6);
 console.log(arin);
@@ -84,7 +73,6 @@ elis nesnesinin prototype'i Person + job özelliğinden oluşuyor. Person nesnes
 Person nesnesi bir person nesnesi  bi de contructor function diyoruz. Çünkü fonksiyonlar bir nesnedir.
 */
 
-
 elis.toString = function(){
   return "ELISSS";
 }
@@ -93,10 +81,66 @@ console.log(elis.toString());
 
 //toString metotunu değiştirebiliyorum. Yani prototype'a var olan bir metodun üzerine yazabiliyorum.
 
-/**
- * JavaScript'te hemen hemen tüm nesneler başka bir nesneden(kendinden daha önce gelen bir nesneden) türetilmiştir. Kökteki nesneye de prototype diyoruz. 
+/*
+  JavaScript'te hemen hemen tüm nesneler başka bir nesneden(kendinden daha önce gelen bir nesneden) türetilmiştir. Kökteki nesneye de prototype diyoruz. 
  */
 
 
+  function Person(name, age){ 
+ 
+    this.name = name; 
+    this.age = age; 
+  }
+
+  Person.prototype.fullName = function(){ // Tüm nesneler için çalışacak.
+    return this.name + ' ' + this.surname 
+  }
+
+  Person.prototype.surname = "Çekiç"; 
+
+  const elis = new Person("Elis", 4);
+  const arin = new Person("Arin", 6);
+
+  console.log(elis);
+  console.log(arin); 
+
+//Inheritance
+/* 
+Bir nesnenin özelliğinin farklı nesneler tarafından kullanılabilmesine inheritance diyoruz.
+
+ES5 sürümü inheritance kavramını prototype inheritance olarak kullanıyor.Yani özelliği ya da metotu kendi prototype'indan alıyor.(Inheritance farklı programlama dillerinde class'lar arasındaki ilişki de kullanılır)
+
+JS'te ise ES5 ile beraber prototype inheritance kullanılıyor.
+*/
+
+const person = {
+  name : 'XXX',
+  surname : 'XXX',
+  age : 0,
+  fullName : function(){
+    return this.name + ' ' + this.surname
+  }
+}
+/*
+Object.create yöntemi ile bir nesneyi başka bir nesneden oluşturabiliyordum.
+*/
+
+const arin = Object.create(person) // person nesnesinden arin nesnesini oluşturduk.
+
+console.log(arin); // {}. Çünkü person özelliklerini prototype'a atıyor.
+
+arin.name = "Arin";
+console.log(arin); //{name : Arin}. person özelliklerinden name'i kendim atadım. prototype'dan name'i aldık.
 
 
+console.log(arin.hasOwnProperty("surname")); // false
+// çünkü surname arin nesnesinde değil. Onun prototype'inda.
+
+console.log("surname" in arin); //true
+
+
+/*ES5 ile prototype inheritance yöntemini kullanarak ortak özellikleri prototype'ta toplamaya çalışır ve bir nesneyi başka bir nesneden türetmeye çalışır.
+
+Yani ilk baştaki temel nesnemiz Object'tir.(build in)
+
+*/

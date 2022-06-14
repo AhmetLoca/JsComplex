@@ -219,7 +219,6 @@ arin.age = 5;
 
 console.log(arin); //{ name : 'Arin', surname : 'Software', age:5 }
 
-
 console.log(arin.fullName()); 
 /*arin'e fullName metodunu atamadım ancak person nesnesi fullName metoduna ulaşabiliyor. Aralarında bir inheritance(kalıtım) var. */
 
